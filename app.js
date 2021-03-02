@@ -10,3 +10,14 @@ function onTitleChange (e) {
         document.querySelector("#other-job-role").style.display = "none";
     }
 } 
+
+function onDesignSelect (e) {
+    if (e.target.value === "js puns") {
+
+    } else if (e.target.value === "heart js") {
+    
+    } else {
+        
+    }
+
+}
