@@ -73,12 +73,30 @@ function showColors(colorsToShow = 'js puns') {
 
 let total = 0;
 
-function add(e, amount) {
- 
-    if (e.target.checked) {
-        total+=amount;
-    } else {
-        total-=amount;
+function addEvents() {
+    total = 0;
+    let activities = document.querySelectorAll("[type='radio']:checked ~ .activity-cost");
+
+    for (i=0; i < activities.length; i++) {
+        total+= +(activities[i].innerText.substring(1))
     }
     renderTotal(total);
+}
+
+function removeSelection(e) {
+    e.preventDefault();
+    let activities = document.querySelectorAll("[type='radio']:checked");
+    for (i=0; i < activities.length; i++) {
+        activities.checked = false;
+    }
+    button = document.querySelector("#activities-button");
+    button.focus();
+    total = 0;
+    renderTotal(0);
+
+}
+
+function preventDef(e) { 
+    console.log("mouse down prevented");
+    e.preventDefault();
 }

@@ -637,3 +637,31 @@ button:hover {
     width: 160px;
   }
 }
+
+/* Custom added styles */
+
+.inline-container {
+  display: inline-block;
+  width: 100%;
+
+  display: flex;
+}
+
+#activities-button {
+  margin-top: 30px;
+  margin-bottom: 0px;
+
+  justify-content: space-between;
+  text-align: center;
+}
+
+.activities-cost {
+  bottom: 15px;
+}
+
+@media (max-width: 767px) { 
+  .inline-container {
+    display:inline-block;
+    text-align: center;
+  }
+}
