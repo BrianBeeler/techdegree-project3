@@ -93,10 +93,79 @@ function removeSelection(e) {
     button.focus();
     total = 0;
     renderTotal(0);
-
 }
 
 function preventDef(e) { 
     console.log("mouse down prevented");
     e.preventDefault();
+}
+
+function validateForm(event) {
+    console.log("called")
+
+    event.preventDefault();
+
+    let name = document.querySelector("#name")
+    
+    if (name.value.length === 0) {
+        name.focus();
+        return
+    }
+    
+    // Src: https://www.w3resource.com/javascript/form/email-validation.php
+    let emailPattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    let emailValidation =  emailPattern.test(document.querySelector("#email").value);
+
+    if (!emailValidation) {
+        // Focus to email
+        document.querySelector("#email").focus();
+        return
+    }
+
+    if (document.querySelector("#payment").value === "credit-card") {
+        
+        let creditCardNum = document.querySelector("#cc-num");
+        let zipCode = document.querySelector("#zip")
+        let cvvNum = document.querySelector("#cvv");
+
+
+        if (creditCardNum.value.length < 13 || creditCardNum.value.length > 16) {
+            // focuse to credit card num field
+            creditCardNum.focus()
+
+            return
+        }
+
+        if (zipCode.value.length !== 5) {
+            zipCode.focus();
+            // focus to 5 digit zip
+            return
+        }
+
+        if (cvvNum.value.length !== 3) {
+            cvvNum.focus();
+            // focus too cvv field
+            return
+        }
+        // 13 - 16 card number
+        // 5 digit zip code
+        // 3 digit cvv
+
+        debugger;
+    }
+
+    // Ensure name field isn't blank
+
+    // "Email" field is a proper email address
+
+    // if credit card selected
+        // 13 - 16 card number
+        // 5 digit zip code
+        // 3 digit cvv
+
+    // if any above fail, return, else submit form
+
+
+
 }
