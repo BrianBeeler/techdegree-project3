@@ -87,7 +87,7 @@ function removeSelection(e) {
     e.preventDefault();
     let activities = document.querySelectorAll("[type='radio']:checked");
     for (i=0; i < activities.length; i++) {
-        activities.checked = false;
+        activities[i].checked = false;
     }
     button = document.querySelector("#activities-button");
     button.focus();
