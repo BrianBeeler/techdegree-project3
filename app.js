@@ -121,12 +121,13 @@ function validateForm(event) {
     if (!emailValidation) {
         // Focus to email
         document.querySelector("#email").focus();
+        document.querySelector("#email").insertAdjacentHTML("afterend", `<p class="error">Error: must be a proper email.</p>`)
         return
     }
 
     if (document.querySelector('#activities-cost').innerText === "Total: $0") {
         let el = document.createElement("p");
-        el.innerHTML = "Hint: Must select at least one activity.";
+        el.innerHTML = "Error: Must select at least one activity.";
         document.querySelector("#activities").appendChild(el);
         el.tabIndex = 0;
         el.focus()
