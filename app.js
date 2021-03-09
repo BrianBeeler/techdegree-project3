@@ -109,6 +109,7 @@ function validateForm(event) {
     
     if (name.value.length === 0) {
         name.focus();
+        document.querySelector("#name").insertAdjacentHTML("afterend", `<p class="error">Error: Name must be greater than zero characters.</p>`)
         return
     }
     
@@ -123,7 +124,7 @@ function validateForm(event) {
         return
     }
 
-    if (document.querySelector('#activities-cost').innerText = "Total: $0") {
+    if (document.querySelector('#activities-cost').innerText === "Total: $0") {
         let el = document.createElement("p");
         el.innerHTML = "Hint: Must select at least one activity.";
         document.querySelector("#activities").appendChild(el);
