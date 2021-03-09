@@ -145,18 +145,21 @@ function validateForm(event) {
 
         if (creditCardNum.value.length < 13 || creditCardNum.value.length > 16) {
             // focuse to credit card num field
-            creditCardNum.focus()
+            creditCardNum.insertAdjacentHTML("afterend", `<p class="error">Error: Credit Card Must be 13 - 16 characters`);
+            creditCardNum.focus();
 
             return
         }
 
         if (zipCode.value.length !== 5) {
+            zipCode.insertAdjacentHTML("afterend", `<p class="error">Error: Zip Code must be 5 characters`);
             zipCode.focus();
             // focus to 5 digit zip
             return
         }
 
         if (cvvNum.value.length !== 3) {
+            cvvNum.insertAdjacentHTML("afterend", `<p class="error">Error: cvv must be 3 characters`);
             cvvNum.focus();
             // focus too cvv field
             return
