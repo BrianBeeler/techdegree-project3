@@ -123,6 +123,11 @@ function validateForm(event) {
         return
     }
 
+    if (document.querySelector('#activities-cost').innerText = "Total: $0") {
+        document.querySelector("[name='all']").focus()
+        return
+    };
+
     if (document.querySelector("#payment").value === "credit-card") {
         
         let creditCardNum = document.querySelector("#cc-num");
