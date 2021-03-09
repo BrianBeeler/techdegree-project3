@@ -167,8 +167,8 @@ function validateForm(event) {
         // 13 - 16 card number
         // 5 digit zip code
         // 3 digit cvv
-
-        debugger;
+        
+        
     }
 
     // Ensure name field isn't blank
@@ -182,6 +182,6 @@ function validateForm(event) {
 
     // if any above fail, return, else submit form
 
-
+    document.querySelector('#main-form').submit();
 
 }
