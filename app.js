@@ -124,7 +124,13 @@ function validateForm(event) {
     }
 
     if (document.querySelector('#activities-cost').innerText = "Total: $0") {
-        document.querySelector("[name='all']").focus()
+        let el = document.createElement("p");
+        el.innerHTML = "Hint: Must select at least one activity.";
+        document.querySelector("#activities").appendChild(el);
+        el.tabIndex = 0;
+        el.focus()
+
+        // Add hint
         return
     };
 
