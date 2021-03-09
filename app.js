@@ -100,6 +100,36 @@ function preventDef(e) {
     e.preventDefault();
 }
 
+
+
+function onNameChange(e) {
+
+    console.log("On name change fired", e.target.value);
+
+    if (e.target.value.length > 0) {
+        if (document.querySelector("#name-error")) {
+            document.querySelector("#name-error").remove();
+        }
+   
+    }
+}
+
+function onEmailChange(e) {
+    console.log('Email changes');
+    if (e.target.value ) {
+        let emailPattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        let emailValidation =  emailPattern.test(document.querySelector("#email").value);
+        if (emailValidation) {
+            if (document.querySelector("#email-error")) {
+                document.querySelector("#email-error").remove();
+            }
+            
+        }
+    }
+}
+
+
+
 function validateForm(event) {
     console.log("called")
 
@@ -109,8 +139,8 @@ function validateForm(event) {
     
     if (name.value.length === 0) {
         name.focus();
-        document.querySelector("#name").insertAdjacentHTML("afterend", `<p class="error">Error: Name must be greater than zero characters.</p>`)
-        return
+        document.querySelector("#name").insertAdjacentHTML("afterend", `<p class="error" id="name-error">Error: Name must be greater than zero characters.</p>`)
+  
     }
     
     // Src: https://www.w3resource.com/javascript/form/email-validation.php
@@ -121,8 +151,8 @@ function validateForm(event) {
     if (!emailValidation) {
         // Focus to email
         document.querySelector("#email").focus();
-        document.querySelector("#email").insertAdjacentHTML("afterend", `<p class="error">Error: must be a proper email.</p>`)
-        return
+        document.querySelector("#email").insertAdjacentHTML("afterend", `<p id="email-error" class="error">Error: must be a proper email.</p>`)
+
     }
 
     if (document.querySelector('#activities-cost').innerText === "Total: $0") {
@@ -133,7 +163,7 @@ function validateForm(event) {
         el.focus()
 
         // Add hint
-        return
+  
     };
 
     if (document.querySelector("#payment").value === "credit-card") {
@@ -148,21 +178,21 @@ function validateForm(event) {
             creditCardNum.insertAdjacentHTML("afterend", `<p class="error">Error: Credit Card Must be 13 - 16 characters`);
             creditCardNum.focus();
 
-            return
+     
         }
 
         if (zipCode.value.length !== 5) {
             zipCode.insertAdjacentHTML("afterend", `<p class="error">Error: Zip Code must be 5 characters`);
             zipCode.focus();
             // focus to 5 digit zip
-            return
+  
         }
 
         if (cvvNum.value.length !== 3) {
             cvvNum.insertAdjacentHTML("afterend", `<p class="error">Error: cvv must be 3 characters`);
             cvvNum.focus();
             // focus too cvv field
-            return
+   
         }
         // 13 - 16 card number
         // 5 digit zip code
@@ -181,7 +211,7 @@ function validateForm(event) {
         // 3 digit cvv
 
     // if any above fail, return, else submit form
-
+    return
     document.querySelector('#main-form').submit();
 
 }

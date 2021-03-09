@@ -26,13 +26,13 @@
           <legend>Basic Info</legend>
           
           <label for="name">Name: <span class="asterisk">*</span>
-            <input type="text" id="name" name="user-name" class="error-border" tabindex="0">
+            <input type="text" id="name" name="user-name" class="error-border" tabindex="0" onkeyup="onNameChange(event)">
             <span id="name-hint" class="name-hint hint">Name field cannot be blank</span>
           </label>
           
           
           <label for="email">Email Address: <span class="asterisk">*</span>
-            <input type="email" id="email" name="user-email" class="error-border">
+            <input type="email" id="email" name="user-email" class="error-border" onkeyup="onEmailChange(event)">
             <span id="email-hint" class="email-hint hint">Email address must be formatted correctly</span>
           </label>
           
