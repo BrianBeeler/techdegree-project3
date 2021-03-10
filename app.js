@@ -5,6 +5,21 @@ window.addEventListener("DOMContentLoaded", (event) => {
     renderTotal(total);
 });
 
+
+let validator = {
+    cannotBeBlanK: (el) => {
+        
+    },
+
+    helpers : {
+        verifyElementHasValue =  (el) => {
+            return el && el.target && el.target.value;
+        }
+    }
+
+}
+
+
 function onTitleChange (e) {
     if (e.target.value === "other") {
         renderOtherJobRole();
