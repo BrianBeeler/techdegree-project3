@@ -32,6 +32,14 @@ let validator = {
         return (this.helpers.verifyElementHasValue(el) &&
                 pattern.test(el.target.value) );
     },  
+    errors : {
+        name: `<p class="error" id="name-error">Error: Name must be greater than zero characters.</p>`,
+        email: `<p id="email-error" class="error">Error: must be a proper email.</p>` ,
+        selectedPlan: `<p id="subscription-error" class="error">Error: Must select at least one item</p>` ,
+        creditCardNum:  `<p id="ccn-error" class="error">Error: Credit Card Must be 13 - 16 characters`,
+        creditCardZip: `<p class="error" id="zip-error">Error: Zip Code must be 5 characters`,
+        creditCardCVV: `<p class="error" id="cvv-error">Error: cvv must be 3 characters`
+    }
 }
 
 
@@ -205,16 +213,14 @@ function validateForm(event) {
 
     event.preventDefault();
 
-    let name = document.querySelector("#name")
-    
-    if (name.value.length === 0) {
-        name.focus();
-        if (!document.querySelector("#name-error")) {
-            document.querySelector("#name").insertAdjacentHTML("afterend", `<p class="error" id="name-error">Error: Name must be greater than zero characters.</p>`)
+    let name = docDotQS("#name");   
+    if (validator.isntBlank(name)) {
+        let nameError = docDotQS("#name-error");
+        if (!nameError) {
+            name.insertAdjacentHTML("afterend", validator.errors.name)
         }
-        
-  
     }
+
     
     // Src: https://www.regular-expressions.info/email.html
     let emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
