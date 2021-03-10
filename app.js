@@ -154,6 +154,16 @@ function onZipNUMChange(e) {
     }
 }
 
+function onCvvChange(e) {
+    console.log("Credit card ewnumber has changed");
+    if (e.target.value.length === 3) {
+        console.log("Check!!");
+        if (document.querySelector("#cvv-error")) {
+            document.querySelector("#cvv-error").remove();
+        }
+    }
+}
+
 
 
 function totalChanged() {
