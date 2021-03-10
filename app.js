@@ -179,7 +179,10 @@ function validateForm(event) {
     
     if (name.value.length === 0) {
         name.focus();
-        document.querySelector("#name").insertAdjacentHTML("afterend", `<p class="error" id="name-error">Error: Name must be greater than zero characters.</p>`)
+        if (!document.querySelector("#name-error")) {
+            document.querySelector("#name").insertAdjacentHTML("afterend", `<p class="error" id="name-error">Error: Name must be greater than zero characters.</p>`)
+        }
+        
   
     }
     
@@ -191,8 +194,10 @@ function validateForm(event) {
     if (!emailValidation) {
         // Focus to email
         document.querySelector("#email").focus();
-        document.querySelector("#email").insertAdjacentHTML("afterend", `<p id="email-error" class="error">Error: must be a proper email.</p>`)
-
+        if (!document.querySelector("#email-error")) {
+            document.querySelector("#email").insertAdjacentHTML("afterend", `<p id="email-error" class="error">Error: must be a proper email.</p>`);
+        }
+       
     }
 
     if (document.querySelector('#activities-cost').innerText === "Total: $0") {
