@@ -46,6 +46,11 @@ function renderColor(enable=true) {
 
 function renderTotal(total) {
     document.querySelector('#activities-cost').innerHTML = `Total: $${total}`;
+    if (total > 0) {
+        if (document.querySelector('#subscription-error') ) {
+            document.querySelector('#subscription-error').remove();
+        }
+    }
 }
 
 
@@ -117,8 +122,9 @@ function onNameChange(e) {
 function onEmailChange(e) {
     console.log('Email changes');
     if (e.target.value ) {
-        let emailPattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-        let emailValidation =  emailPattern.test(document.querySelector("#email").value);
+        let emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        let emailValidation =  emailPattern.test(e.target.value);
+        console.log(emailValidation);
         if (emailValidation) {
             if (document.querySelector("#email-error")) {
                 document.querySelector("#email-error").remove();
@@ -128,7 +134,9 @@ function onEmailChange(e) {
     }
 }
 
-
+function totalChanged() {
+    console.log("total changed");
+}
 
 function validateForm(event) {
     console.log("called")
@@ -143,8 +151,8 @@ function validateForm(event) {
   
     }
     
-    // Src: https://www.w3resource.com/javascript/form/email-validation.php
-    let emailPattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    // Src: https://www.regular-expressions.info/email.html
+    let emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
     let emailValidation =  emailPattern.test(document.querySelector("#email").value);
 
@@ -156,12 +164,13 @@ function validateForm(event) {
     }
 
     if (document.querySelector('#activities-cost').innerText === "Total: $0") {
-        let el = document.createElement("p");
-        el.innerHTML = "Error: Must select at least one activity.";
-        document.querySelector("#activities").appendChild(el);
-        el.tabIndex = 0;
-        el.focus()
-
+        if (!document.querySelector('#subscription-error')) {
+            document.querySelector("#activities").insertAdjacentHTML("afterend", `<p id="subscription-error" class="error">Error: Must select at least one item</p>`)
+        }
+       
+        let suberror = document.querySelector('#subscription-error');
+        suberror.tabindex = 0;
+        suberror.focus();
         // Add hint
   
     };
