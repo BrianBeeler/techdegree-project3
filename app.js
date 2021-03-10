@@ -7,15 +7,29 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 
 let validator = {
-    cannotBeBlanK: (el) => {
-        
+    isntBlank: (el) => {
+        return this.helpers.verifyElementHasValue(el) && el.target.value.length > 0;
     },
-
-    helpers : {
-        verifyElementHasValue =  (el) => {
-            return el && el.target && el.target.value;
-        }
-    }
+    isValidEmail: (el) => {
+        // Src: https://www.regular-expressions.info/email.html
+        let pattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        return (    this.helpers.verifyElementHasValue(el) &&
+                    pattern.test(el.target.value)               );
+    },
+    atLeastOneSelected: (el1, el2, el3, el4, el5) => {
+        return (el1.target.selected || el2.target.selected || el3.target.selected 
+        || el4.target.selected || el5.target.selected);
+    },
+    thirteenToSixteenDigits: (el) => {
+        let pattern = /[0-9]{13,16}/
+        return (    this.helpers.verifyElementHasValue(el) &&
+                    pattern.test(el.target.value) );
+    },
+    nDigits: (el, n) => {
+        let pattern = `/[0-9]{${n}}/`;
+        return (this.helpers.verifyElementHasValue(el) &&
+                pattern.test(el.target.value) );
+    },  
 
 }
 
