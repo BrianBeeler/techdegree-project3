@@ -3,6 +3,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
     renderOtherJobRole(false);
     renderColor(false);
     renderTotal(total);
+    triedToSubmit = false;
+    docDotQS = document.querySelector
 });
 
 
@@ -30,7 +32,6 @@ let validator = {
         return (this.helpers.verifyElementHasValue(el) &&
                 pattern.test(el.target.value) );
     },  
-
 }
 
 
