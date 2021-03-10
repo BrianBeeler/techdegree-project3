@@ -134,6 +134,28 @@ function onEmailChange(e) {
     }
 }
 
+function onCCNUMChange(e) {
+    console.log("Credit card number has changed");
+    if (e.target.value.length >= 13 && e.target.value.length <= 16) {
+        console.log("Check!!");
+        if (document.querySelector("#ccn-error")) {
+            document.querySelector("#ccn-error").remove();
+        }
+    }
+}
+
+function onZipNUMChange(e) {
+    console.log("Credit card number has changed");
+    if (e.target.value.length === 5) {
+        console.log("Check!!");
+        if (document.querySelector("#zip-error")) {
+            document.querySelector("#zip-error").remove();
+        }
+    }
+}
+
+
+
 function totalChanged() {
     console.log("total changed");
 }
@@ -184,21 +206,21 @@ function validateForm(event) {
 
         if (creditCardNum.value.length < 13 || creditCardNum.value.length > 16) {
             // focuse to credit card num field
-            creditCardNum.insertAdjacentHTML("afterend", `<p class="error">Error: Credit Card Must be 13 - 16 characters`);
+            creditCardNum.insertAdjacentHTML("afterend", `<p id="ccn-error" class="error">Error: Credit Card Must be 13 - 16 characters`);
             creditCardNum.focus();
 
      
         }
 
         if (zipCode.value.length !== 5) {
-            zipCode.insertAdjacentHTML("afterend", `<p class="error">Error: Zip Code must be 5 characters`);
+            zipCode.insertAdjacentHTML("afterend", `<p class="error" id="zip-error">Error: Zip Code must be 5 characters`);
             zipCode.focus();
             // focus to 5 digit zip
   
         }
 
         if (cvvNum.value.length !== 3) {
-            cvvNum.insertAdjacentHTML("afterend", `<p class="error">Error: cvv must be 3 characters`);
+            cvvNum.insertAdjacentHTML("afterend", `<p class="error" id="cvv-error">Error: cvv must be 3 characters`);
             cvvNum.focus();
             // focus too cvv field
    
