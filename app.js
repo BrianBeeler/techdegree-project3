@@ -10,7 +10,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 let validator = {
     isntBlank: (el) => {
-        return validator.helpers.verifyElementHasValue(el) && el.target.value.length > 0;
+        debugger;
+        return validator.helpers.verifyElementHasValue(el) && el.value.length > 0;
     },
     isValidEmail: (el) => {
         // Src: https://www.regular-expressions.info/email.html
@@ -24,12 +25,12 @@ let validator = {
     thirteenToSixteenDigits: (el) => {
         let pattern = /[0-9]{13,16}/
         return (    validator.helpers.verifyElementHasValue(el) &&
-                    pattern.test(el.target.value) );
+                    pattern.test(el.value) );
     },
     nDigits: (el, n) => {
         let pattern = `/[0-9]{${n}}/`;
         return (validator.helpers.verifyElementHasValue(el) &&
-                pattern.test(el.target.value) );
+                pattern.test(el.value) );
     },  
     errors : {
         name: `<p class="error" id="name-error">Error: Name must be greater than zero characters.</p>`,
@@ -41,7 +42,7 @@ let validator = {
     },
     helpers: {
         verifyElementHasValue: (el) => {
-            return el && el.target && el.value;
+            return el && el.value;
         }
     }
 }
@@ -276,31 +277,26 @@ function validateForm(event) {
         let zipCode = document.querySelector("#zip")
         let cvvNum = document.querySelector("#cvv");
 
-
-        if (creditCardNum.value.length < 13 || creditCardNum.value.length > 16) {
-            // focuse to credit card num field
-            creditCardNum.insertAdjacentHTML("afterend", `<p id="ccn-error" class="error">Error: Credit Card Must be 13 - 16 characters`);
-            creditCardNum.focus();
-
-     
+        if (!validator.thirteenToSixteenDigits(creditCardNum)) {
+            let ccnError = docDotQS("#ccn-error");
+            if (!ccnError) {
+                creditCardNum.insertAdjacentHTML("afterend", validator.errors.creditCardNum);
+            }
         }
 
-        if (zipCode.value.length !== 5) {
-            zipCode.insertAdjacentHTML("afterend", `<p class="error" id="zip-error">Error: Zip Code must be 5 characters`);
-            zipCode.focus();
-            // focus to 5 digit zip
-  
+        if (!validator.nDigits(zipCode), 5) {
+            let zipError = docDotQS("#zip-error");
+            if (!zipError) {
+                zipCode.insertAdjacentHTML("afterend", validator.errors.creditCardZip);
+            }
         }
 
-        if (cvvNum.value.length !== 3) {
-            cvvNum.insertAdjacentHTML("afterend", `<p class="error" id="cvv-error">Error: cvv must be 3 characters`);
-            cvvNum.focus();
-            // focus too cvv field
-   
+        if (!validator.nDigits(cvvNum), 3) {
+            let cvvError = docDotQS("#cvv-error");
+            if (!cvvError) {
+                cvvNum.insertAdjacentHTML("afterend", validator.errors.creditCardCVV);
+            }
         }
-        // 13 - 16 card number
-        // 5 digit zip code
-        // 3 digit cvv
         
         
     }
