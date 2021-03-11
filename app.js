@@ -17,7 +17,7 @@ let validator = {
         // Src: https://www.regular-expressions.info/email.html
         let pattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
         return (    validator.helpers.verifyElementHasValue(el) &&
-                    pattern.test(el.target.value)               );
+                    pattern.test(el.value)               );
     },
     atLeastOneSelected: (el1, el2, el3, el4, el5, el6) => {
         return (el1.checked || el2.checked || el3.checked || el4.checked || el5.checked || el6.checked);
