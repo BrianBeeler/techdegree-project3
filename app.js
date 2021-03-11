@@ -18,9 +18,8 @@ let validator = {
         return (    validator.helpers.verifyElementHasValue(el) &&
                     pattern.test(el.target.value)               );
     },
-    atLeastOneSelected: (el1, el2, el3, el4, el5) => {
-        return (el1.target.selected || el2.target.selected || el3.target.selected 
-        || el4.target.selected || el5.target.selected);
+    atLeastOneSelected: (el1, el2, el3, el4, el5, el6) => {
+        return (el1.checked || el2.checked || el3.checked || el4.checked || el5.checked || el6.checked);
     },
     thirteenToSixteenDigits: (el) => {
         let pattern = /[0-9]{13,16}/
@@ -234,34 +233,42 @@ function validateForm(event) {
         }
     }
 
-    selectOneOf = [ docDotQS("select1"), docDotQS("select2"), docDotQS("select3"), docDotQS("select4") , docDotQS("select5") ];
-    
+    selectOneOf = [ docDotQS("#select1"), docDotQS("#select2"), docDotQS("#select3"), docDotQS("#select4") , docDotQS("#select5"), docDotQS("#select6") ];
 
-    // Src: https://www.regular-expressions.info/email.html
-    let emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-
-    let emailValidation =  emailPattern.test(document.querySelector("#email").value);
-
-    if (!emailValidation) {
-        // Focus to email
-        document.querySelector("#email").focus();
-        if (!document.querySelector("#email-error")) {
-            document.querySelector("#email").insertAdjacentHTML("afterend", `<p id="email-error" class="error">Error: must be a proper email.</p>`);
+    if (!validator.atLeastOneSelected(...selectOneOf)) {
+        let subscriptionError = docDotQS('#subscription-error')
+        if (!subscriptionError) {
+            docDotQS("#activities").insertAdjacentHTML("afterend", validator.errors.selectedPlan);
         }
-       
     }
 
-    if (document.querySelector('#activities-cost').innerText === "Total: $0") {
-        if (!document.querySelector('#subscription-error')) {
-            document.querySelector("#activities").insertAdjacentHTML("afterend", `<p id="subscription-error" class="error">Error: Must select at least one item</p>`)
-        }
+    
+
+    // // Src: https://www.regular-expressions.info/email.html
+    // let emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+    // let emailValidation =  emailPattern.test(document.querySelector("#email").value);
+
+    // if (!emailValidation) {
+    //     // Focus to email
+    //     document.querySelector("#email").focus();
+    //     if (!document.querySelector("#email-error")) {
+    //         document.querySelector("#email").insertAdjacentHTML("afterend", `<p id="email-error" class="error">Error: must be a proper email.</p>`);
+    //     }
        
-        let suberror = document.querySelector('#subscription-error');
-        suberror.tabindex = 0;
-        suberror.focus();
-        // Add hint
+    // }
+
+    // if (document.querySelector('#activities-cost').innerText === "Total: $0") {
+    //     if (!document.querySelector('#subscription-error')) {
+    //         document.querySelector("#activities").insertAdjacentHTML("afterend", `<p id="subscription-error" class="error">Error: Must select at least one item</p>`)
+    //     }
+       
+    //     let suberror = document.querySelector('#subscription-error');
+    //     suberror.tabindex = 0;
+    //     suberror.focus();
+    //     // Add hint
   
-    };
+    // };
 
     if (document.querySelector("#payment").value === "credit-card") {
         
