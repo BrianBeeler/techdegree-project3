@@ -214,9 +214,12 @@ function totalChanged() {
 
 function validateForm(event) {
 
-    let validate = (elTag, errorTag, validatorName, errName) => {
+    // Validates an element, and appends an error messsage if 
+    // there is not one already
+
+    let validate = (elTag, errorTag, validatorName, errName, nparam) => {
         let el = docDotQS(elTag)
-        if (!validator[validatorName](el)) {
+        if (!validator[validatorName](el, nparam)) {
             let errorEl = docDotQS(errorTag)
             if (!errorEl) {
                 el.insertAdjacentHTML("afterend", validator.errors[errName]);
@@ -227,29 +230,13 @@ function validateForm(event) {
    
     event.preventDefault();
 
-
+    // Validation for name and email fields
     validate('#name', '#name-error', "isntBlank", "name");
-    
+    validate("#email", '#email-error', "isValidEmail", "email");
 
-    let name = docDotQS("#name");   
 
-    if (!validator.isntBlank(name)) {
-        let nameError = docDotQS("#name-error");
-        if (!nameError) {
-            name.insertAdjacentHTML("afterend", validator.errors.name)
-        }
-    }
-
-    let email = document.querySelector("#email");
-    if (!validator.isValidEmail(email)) {
-        let emailError = docDotQS("#email-error");
-        if (!emailError) {
-            email.insertAdjacentHTML("afterend", validator.errors.email);
-        }
-    }
-
+    // Validation that at least one subscription type exists
     selectOneOf = [ docDotQS("#select1"), docDotQS("#select2"), docDotQS("#select3"), docDotQS("#select4") , docDotQS("#select5"), docDotQS("#select6") ];
-
     if (!validator.atLeastOneSelected(...selectOneOf)) {
         let subscriptionError = docDotQS('#subscription-error')
         if (!subscriptionError) {
@@ -257,35 +244,13 @@ function validateForm(event) {
         }
     }
 
-
+    // Credit Card Validation
 
     if (document.querySelector("#payment").value === "credit-card") {
         
-        let creditCardNum = document.querySelector("#cc-num");
-        let zipCode = document.querySelector("#zip")
-        let cvvNum = document.querySelector("#cvv");
-
-        if (!validator.thirteenToSixteenDigits(creditCardNum)) {
-            let ccnError = docDotQS("#ccn-error");
-            if (!ccnError) {
-                creditCardNum.insertAdjacentHTML("afterend", validator.errors.creditCardNum);
-            }
-        }
-
-        if (!validator.nDigits(zipCode), 5) {
-            let zipError = docDotQS("#zip-error");
-            if (!zipError) {
-                zipCode.insertAdjacentHTML("afterend", validator.errors.creditCardZip);
-            }
-        }
-
-        if (!validator.nDigits(cvvNum), 3) {
-            let cvvError = docDotQS("#cvv-error");
-            if (!cvvError) {
-                cvvNum.insertAdjacentHTML("afterend", validator.errors.creditCardCVV);
-            }
-        }
-        
+        validate("#cc-num", '#ccn-error', "thirteenToSixteenDigits", "creditCardNum");
+        validate("#zip", '#zip-error', 'nDigits', 'creditCardZip', 5);
+        validate("#cvv", "#cvv-err", "nDigits", "creditCardCVV", 3);        
         
     }
 
