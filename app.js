@@ -10,7 +10,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 let validator = {
     isntBlank: (el) => {
-        debugger;
         return validator.helpers.verifyElementHasValue(el) && el.value.length > 0;
     },
     isValidEmail: (el) => {
@@ -36,7 +35,7 @@ let validator = {
         name: `<p class="error" id="name-error">Error: Name must be greater than zero characters.</p>`,
         email: `<p id="email-error" class="error">Error: must be a proper email.</p>` ,
         selectedPlan: `<p id="subscription-error" class="error">Error: Must select at least one item</p>` ,
-        creditCardNum:  `<p id="ccn-error" class="error">Error: Credit Card Must be 13 - 16 characters`,
+        creditCardNum:  `<p id="ccn-error" class="error">Error: Credit Card Must be 13 - 16 digits`,
         creditCardZip: `<p class="error" id="zip-error">Error: Zip Code must be 5 characters`,
         creditCardCVV: `<p class="error" id="cvv-error">Error: cvv must be 3 characters`
     },
@@ -214,8 +213,23 @@ function totalChanged() {
 }
 
 function validateForm(event) {
+
+    let validate = (elTag, errorTag, validatorName, errName) => {
+        let el = docDotQS(elTag)
+        if (!validator[validatorName](el)) {
+            let errorEl = docDotQS(errorTag)
+            if (!errorEl) {
+                el.insertAdjacentHTML("afterend", validator.errors[errName]);
+            }
+            
+        }
+    }
    
     event.preventDefault();
+
+
+    validate('#name', '#name-error', "isntBlank", "name");
+    
 
     let name = docDotQS("#name");   
 
@@ -243,33 +257,7 @@ function validateForm(event) {
         }
     }
 
-    
 
-    // // Src: https://www.regular-expressions.info/email.html
-    // let emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-
-    // let emailValidation =  emailPattern.test(document.querySelector("#email").value);
-
-    // if (!emailValidation) {
-    //     // Focus to email
-    //     document.querySelector("#email").focus();
-    //     if (!document.querySelector("#email-error")) {
-    //         document.querySelector("#email").insertAdjacentHTML("afterend", `<p id="email-error" class="error">Error: must be a proper email.</p>`);
-    //     }
-       
-    // }
-
-    // if (document.querySelector('#activities-cost').innerText === "Total: $0") {
-    //     if (!document.querySelector('#subscription-error')) {
-    //         document.querySelector("#activities").insertAdjacentHTML("afterend", `<p id="subscription-error" class="error">Error: Must select at least one item</p>`)
-    //     }
-       
-    //     let suberror = document.querySelector('#subscription-error');
-    //     suberror.tabindex = 0;
-    //     suberror.focus();
-    //     // Add hint
-  
-    // };
 
     if (document.querySelector("#payment").value === "credit-card") {
         
