@@ -18,8 +18,9 @@ let validator = {
         return (    validator.helpers.verifyElementHasValue(el) &&
                     pattern.test(el.value)               );
     },
-    atLeastOneSelected: (el1, el2, el3, el4, el5, el6) => {
-        return (el1.checked || el2.checked || el3.checked || el4.checked || el5.checked || el6.checked);
+    atLeastOneSelected: (el1, el2, el3, el4, el5, el6, el7) => {
+    
+        return (el1.checked || el2.checked || el3.checked || el4.checked || el5.checked || el6.checked || el7.checked);
     },
     thirteenToSixteenDigits: (el) => {
         let pattern = /[0-9]{13,16}/
@@ -27,17 +28,18 @@ let validator = {
                     pattern.test(el.value) );
     },
     nDigits: (el, n) => {
-        let pattern = `/[0-9]{${n}}/`;
-        return (validator.helpers.verifyElementHasValue(el) &&
-                pattern.test(el.value) );
+        let pattern = `[0-9]{${n}}`;
+        pattern = new RegExp(pattern);
+        return (    validator.helpers.verifyElementHasValue(el) &&
+                    pattern.test(el.value) );
     },  
     errors : {
         name: `<p class="error" id="name-error">Error: Name must be greater than zero characters.</p>`,
         email: `<p id="email-error" class="error">Error: must be a proper email.</p>` ,
-        selectedPlan: `<p id="subscription-error" class="error">Error: Must select at least one item</p>` ,
+        selectedPlan: `<p id="subscription-error" tabindex="0" class="error">Error: Must select at least one item</p>` ,
         creditCardNum:  `<p id="ccn-error" class="error">Error: Credit Card Must be 13 - 16 digits`,
-        creditCardZip: `<p class="error" id="zip-error">Error: Zip Code must be 5 characters`,
-        creditCardCVV: `<p class="error" id="cvv-error">Error: Cvv must be 3 characters`
+        creditCardZip: `<p class="error" id="zip-error">Error: Zip Code must be 5 digits`,
+        creditCardCVV: `<p class="error" id="cvv-error">Error: Cvv must be 3 digits`
     },
     helpers: {
         verifyElementHasValue: (el) => {
@@ -214,17 +216,22 @@ function totalChanged() {
 
 function validateForm(event) {
 
+    let focusGiven = false;
+
     // Validates an element, and appends an error messsage if 
     // there is not one already
-
     let validate = (elTag, errorTag, validatorName, errName, nparam) => {
         let el = docDotQS(elTag)
+
         if (!validator[validatorName](el, nparam)) {
             let errorEl = docDotQS(errorTag)
             if (!errorEl) {
                 el.insertAdjacentHTML("afterend", validator.errors[errName]);
             }
-            
+            if (!focusGiven) {
+                el.focus()
+                focusGiven = true;
+            }
         }
     }
    
@@ -234,38 +241,31 @@ function validateForm(event) {
     validate('#name', '#name-error', "isntBlank", "name");
     validate("#email", '#email-error', "isValidEmail", "email");
 
-
     // Validation that at least one subscription type exists
-    selectOneOf = [ docDotQS("#select1"), docDotQS("#select2"), docDotQS("#select3"), docDotQS("#select4") , docDotQS("#select5"), docDotQS("#select6") ];
+    selectOneOf = [ docDotQS("#select1"), docDotQS("#select2"), docDotQS("#select3"), docDotQS("#select4") , docDotQS("#select5"), docDotQS("#select6"), docDotQS("#select7") ];
     if (!validator.atLeastOneSelected(...selectOneOf)) {
         let subscriptionError = docDotQS('#subscription-error')
         if (!subscriptionError) {
             docDotQS("#activities").insertAdjacentHTML("afterend", validator.errors.selectedPlan);
         }
+        if (!focusGiven) {
+            subscriptionError.focus()
+            focusGiven = true;
+        }
+
     }
 
     // Credit Card Validation
-
-    if (document.querySelector("#payment").value === "credit-card") {
-        
+    if (document.querySelector("#payment").value === "credit-card") { 
         validate("#cc-num", "#ccn-error", "thirteenToSixteenDigits", "creditCardNum");
         validate("#zip", "#zip-error", "nDigits", "creditCardZip", 5);
-        debugger;
-        validate("#cvv", "#cvv-error", "nDigits", "creditCardCVV", 3);        
-        
+        validate("#cvv", "#cvv-error", "nDigits", "creditCardCVV", 3);                
     }
 
-    // Ensure name field isn't blank
-
-    // "Email" field is a proper email address
-
-    // if credit card selected
-        // 13 - 16 card number
-        // 5 digit zip code
-        // 3 digit cvv
-
     // if any above fail, return, else submit form
-    return
-    document.querySelector('#main-form').submit();
+    if (!focusGiven) {
+        document.querySelector('#main-form').submit();
+    }
+  
 
 }
