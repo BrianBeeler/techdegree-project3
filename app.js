@@ -37,7 +37,7 @@ let validator = {
         selectedPlan: `<p id="subscription-error" class="error">Error: Must select at least one item</p>` ,
         creditCardNum:  `<p id="ccn-error" class="error">Error: Credit Card Must be 13 - 16 digits`,
         creditCardZip: `<p class="error" id="zip-error">Error: Zip Code must be 5 characters`,
-        creditCardCVV: `<p class="error" id="cvv-error">Error: cvv must be 3 characters`
+        creditCardCVV: `<p class="error" id="cvv-error">Error: Cvv must be 3 characters`
     },
     helpers: {
         verifyElementHasValue: (el) => {
@@ -248,9 +248,10 @@ function validateForm(event) {
 
     if (document.querySelector("#payment").value === "credit-card") {
         
-        validate("#cc-num", '#ccn-error', "thirteenToSixteenDigits", "creditCardNum");
-        validate("#zip", '#zip-error', 'nDigits', 'creditCardZip', 5);
-        validate("#cvv", "#cvv-err", "nDigits", "creditCardCVV", 3);        
+        validate("#cc-num", "#ccn-error", "thirteenToSixteenDigits", "creditCardNum");
+        validate("#zip", "#zip-error", "nDigits", "creditCardZip", 5);
+        debugger;
+        validate("#cvv", "#cvv-error", "nDigits", "creditCardCVV", 3);        
         
     }
 
