@@ -4,18 +4,18 @@ window.addEventListener("DOMContentLoaded", (event) => {
     renderColor(false);
     renderTotal(total);
     triedToSubmit = false;
-    docDotQS = document.querySelector
+    docDotQS = document.querySelector.bind(document);
 });
 
 
 let validator = {
     isntBlank: (el) => {
-        return this.helpers.verifyElementHasValue(el) && el.target.value.length > 0;
+        return validator.helpers.verifyElementHasValue(el) && el.target.value.length > 0;
     },
     isValidEmail: (el) => {
         // Src: https://www.regular-expressions.info/email.html
         let pattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-        return (    this.helpers.verifyElementHasValue(el) &&
+        return (    validator.helpers.verifyElementHasValue(el) &&
                     pattern.test(el.target.value)               );
     },
     atLeastOneSelected: (el1, el2, el3, el4, el5) => {
@@ -24,12 +24,12 @@ let validator = {
     },
     thirteenToSixteenDigits: (el) => {
         let pattern = /[0-9]{13,16}/
-        return (    this.helpers.verifyElementHasValue(el) &&
+        return (    validator.helpers.verifyElementHasValue(el) &&
                     pattern.test(el.target.value) );
     },
     nDigits: (el, n) => {
         let pattern = `/[0-9]{${n}}/`;
-        return (this.helpers.verifyElementHasValue(el) &&
+        return (validator.helpers.verifyElementHasValue(el) &&
                 pattern.test(el.target.value) );
     },  
     errors : {
@@ -39,6 +39,11 @@ let validator = {
         creditCardNum:  `<p id="ccn-error" class="error">Error: Credit Card Must be 13 - 16 characters`,
         creditCardZip: `<p class="error" id="zip-error">Error: Zip Code must be 5 characters`,
         creditCardCVV: `<p class="error" id="cvv-error">Error: cvv must be 3 characters`
+    },
+    helpers: {
+        verifyElementHasValue: (el) => {
+            return el && el.target && el.value;
+        }
     }
 }
 
@@ -209,19 +214,29 @@ function totalChanged() {
 }
 
 function validateForm(event) {
-    console.log("called")
-
+   
     event.preventDefault();
 
     let name = docDotQS("#name");   
-    if (validator.isntBlank(name)) {
+
+    if (!validator.isntBlank(name)) {
         let nameError = docDotQS("#name-error");
         if (!nameError) {
             name.insertAdjacentHTML("afterend", validator.errors.name)
         }
     }
 
+    let email = document.querySelector("#email");
+    if (!validator.isValidEmail(email)) {
+        let emailError = docDotQS("#email-error");
+        if (!emailError) {
+            email.insertAdjacentHTML("afterend", validator.errors.email);
+        }
+    }
+
+    selectOneOf = [ docDotQS("select1"), docDotQS("select2"), docDotQS("select3"), docDotQS("select4") , docDotQS("select5") ];
     
+
     // Src: https://www.regular-expressions.info/email.html
     let emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
