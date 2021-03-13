@@ -156,7 +156,7 @@ function showColors(colorsToShow = 'js puns') {
     for (let i = 0; i<hidden.length; i++) {
         hidden[i].style.display = "none";
     }
-    for (let j = 0; j< shown.length; j++) {
+    for (let j = 0; j < shown.length; j++) {
         shown[j].style.display = "";
     }
 
@@ -200,6 +200,8 @@ function onNameChange(e) {
     if (e.target.value.length > 0) {
         if (document.querySelector("#name-error")) {
             document.querySelector("#name-error").remove();
+            e.target.classList.remove("not-valid");
+            e.target.classList.add("valid");
         }
    
     }
@@ -209,6 +211,8 @@ function onEmailChange(e) {
     console.log('Email changes');
     if (document.querySelector("#email-error")) {
         document.querySelector("#email-error").remove();
+        e.target.classList.remove("not-valid");
+        e.target.classList.add("valid");
     }
    
     let emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -217,6 +221,7 @@ function onEmailChange(e) {
     if (emailValidation) {
         if (document.querySelector("#email-error")) {
             document.querySelector("#email-error").remove();
+            
         }
         
     } else if (e.target.value.length === 0) {
@@ -228,7 +233,8 @@ function onEmailChange(e) {
 }
 
 function onCCNUMChange(e) {
-    console.log("Credit card number has changed");
+    e.target.classList.remove("not-valid");
+    e.target.classList.add("valid");
     if (e.target.value.length >= 13 && e.target.value.length <= 16) {
         console.log("Check!!");
         if (document.querySelector("#ccn-error")) {
@@ -238,7 +244,8 @@ function onCCNUMChange(e) {
 }
 
 function onZipNUMChange(e) {
-    console.log("Credit card number has changed");
+    e.target.classList.remove("not-valid");
+    e.target.classList.add("valid");
     if (e.target.value.length === 5) {
         console.log("Check!!");
         if (document.querySelector("#zip-error")) {
@@ -248,7 +255,8 @@ function onZipNUMChange(e) {
 }
 
 function onCvvChange(e) {
-    console.log("Credit card ewnumber has changed");
+    e.target.classList.remove("not-valid");
+    e.target.classList.add("valid");
     if (e.target.value.length === 3) {
         console.log("Check!!");
         if (document.querySelector("#cvv-error")) {
@@ -271,7 +279,7 @@ function validateForm(event) {
     // there is not one already
     let validate = (elTag, errorTag, validatorName, errName, nparam) => {
         let el = docDotQS(elTag)
-
+        debugger; 
         if (!validator[validatorName](el, nparam)) {
             let errorEl = docDotQS(errorTag)
             if (!errorEl) {
@@ -281,6 +289,13 @@ function validateForm(event) {
                 el.focus()
                 focusGiven = true;
             }
+            console.log("add not-valid")
+            el.classList.remove("valid");
+            el.classList.add("not-valid");
+        } else {
+            console.log("is valid")
+            el.classList.remove("not-valid");
+            el.classList.add("valid");
         }
     }
    
