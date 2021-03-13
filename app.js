@@ -5,6 +5,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
     renderTotal(total);
     triedToSubmit = false;
     docDotQS = document.querySelector.bind(document);
+    debugger;
+    docDotQS("#payment").value = "credit-card";
 });
 
 
