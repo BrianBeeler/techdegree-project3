@@ -23,12 +23,12 @@ let validator = {
         return (el1.checked || el2.checked || el3.checked || el4.checked || el5.checked || el6.checked || el7.checked);
     },
     thirteenToSixteenDigits: (el) => {
-        let pattern = /[0-9]{13,16}/
+        let pattern = /^[0-9]{13,16}$/
         return (    validator.helpers.verifyElementHasValue(el) &&
                     pattern.test(el.value) );
     },
     nDigits: (el, n) => {
-        let pattern = `[0-9]{${n}}`;
+        let pattern = `^[0-9]{${n}}$`;
         pattern = new RegExp(pattern);
         return (    validator.helpers.verifyElementHasValue(el) &&
                     pattern.test(el.value) );
@@ -249,6 +249,7 @@ function validateForm(event) {
             docDotQS("#activities").insertAdjacentHTML("afterend", validator.errors.selectedPlan);
         }
         if (!focusGiven) {
+            subscriptionError = docDotQS('#subscription-error')
             subscriptionError.focus()
             focusGiven = true;
         }
