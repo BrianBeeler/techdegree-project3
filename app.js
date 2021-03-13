@@ -5,7 +5,15 @@ window.addEventListener("DOMContentLoaded", (event) => {
     renderTotal(total);
     triedToSubmit = false;
     docDotQS = document.querySelector.bind(document);
-    debugger;
+    docDotQS("#payment")
+
+    fakeEvent = {
+        target: {
+            value: "credit-card"
+        }
+    }
+
+    docDotQS("#payment").onchange(fakeEvent);
     docDotQS("#payment").value = "credit-card";
 });
 
@@ -71,6 +79,36 @@ function onDesignSelect (e) {
     }
 
 }
+
+function onPaymentTypeChange(e) {
+    console.log("opc triggered");
+    let exMonth = docDotQS(".expiration-box");
+    let exYear = docDotQS(".credit-card-box");
+    let paypalbox = docDotQS("#paypal");
+    let bitcoinbox = docDotQS("#bitcoin");
+
+    if (e.target.value === "credit-card") {
+        exMonth.style.display = "";
+        exYear.style.display = "";
+        paypalbox.style.display = "none";
+        bitcoinbox.style.display = "none";
+
+    } else {
+
+        exMonth.style.display = "none";
+        exYear.style.display = "none";
+ 
+        if (e.target.value === "paypal") {
+            paypalbox.style.display = "";
+            bitcoinbox.style.display = "none";
+        } else {
+            paypalbox.style.display = "none";
+            bitcoinbox.style.display = ""
+            // Must equal bitcoin
+        }
+    }
+}
+
 
 function renderOtherJobRole(enable = true) {
     if (enable) {

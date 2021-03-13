@@ -156,7 +156,7 @@
 
         <div class="payment-method-box">
           <label for="payment">I'm going to pay with:</label>
-          <select id="payment" name="user-payment">
+          <select id="payment" name="user-payment" onchange="onPaymentTypeChange(event)">
             <option value="select method" hidden>Select Payment Method</option>
             <option value="credit-card">Credit Card</option>
             <option value="paypal">PayPal</option>
