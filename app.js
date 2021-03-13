@@ -25,6 +25,7 @@ let validator = {
     isValidEmail: (el) => {
         // Src: https://www.regular-expressions.info/email.html
         let pattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        
         return (    validator.helpers.verifyElementHasValue(el) &&
                     pattern.test(el.value)               );
     },
@@ -45,7 +46,8 @@ let validator = {
     },  
     errors : {
         name: `<p class="error" id="name-error">Error: Name must be greater than zero characters.</p>`,
-        email: `<p id="email-error" class="error">Error: must be a proper email.</p>` ,
+        email1: `<p id="email-error" class="error">Error: must be a proper email.</p>` ,
+        email2: `<p id="email-error" class="error">Error: Must have value.</p>` ,
         selectedPlan: `<p id="subscription-error" tabindex="0" class="error">Error: Must select at least one item</p>` ,
         creditCardNum:  `<p id="ccn-error" class="error">Error: Credit Card Must be 13 - 16 digits`,
         creditCardZip: `<p class="error" id="zip-error">Error: Zip Code must be 5 digits`,
@@ -205,17 +207,24 @@ function onNameChange(e) {
 
 function onEmailChange(e) {
     console.log('Email changes');
-    if (e.target.value ) {
-        let emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-        let emailValidation =  emailPattern.test(e.target.value);
-        console.log(emailValidation);
-        if (emailValidation) {
-            if (document.querySelector("#email-error")) {
-                document.querySelector("#email-error").remove();
-            }
-            
-        }
+    if (document.querySelector("#email-error")) {
+        document.querySelector("#email-error").remove();
     }
+   
+    let emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    let emailValidation =  emailPattern.test(e.target.value);
+    console.log(emailValidation);
+    if (emailValidation) {
+        if (document.querySelector("#email-error")) {
+            document.querySelector("#email-error").remove();
+        }
+        
+    } else if (e.target.value.length === 0) {
+        docDotQS("#email").insertAdjacentHTML("afterend", validator.errors.email2);
+    }  else {
+        docDotQS("#email").insertAdjacentHTML("afterend", validator.errors.email1);
+    }
+ 
 }
 
 function onCCNUMChange(e) {
@@ -279,7 +288,7 @@ function validateForm(event) {
 
     // Validation for name and email fields
     validate('#name', '#name-error', "isntBlank", "name");
-    validate("#email", '#email-error', "isValidEmail", "email");
+    validate("#email", '#email-error', "isValidEmail", "email1");
 
     // Validation that at least one subscription type exists
     selectOneOf = [ docDotQS("#select1"), docDotQS("#select2"), docDotQS("#select3"), docDotQS("#select4") , docDotQS("#select5"), docDotQS("#select6"), docDotQS("#select7") ];
