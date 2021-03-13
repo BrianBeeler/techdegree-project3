@@ -1,23 +1,20 @@
+// Whem page is loaded, run the follwoing:
+
 window.addEventListener("DOMContentLoaded", (event) => {
     document.querySelector('#name').focus();
     renderOtherJobRole(false);
     renderColor(false);
-    renderTotal(total);
+    renderTotal(0);
     triedToSubmit = false;
     docDotQS = document.querySelector.bind(document);
     docDotQS("#payment")
-
-    fakeEvent = {
-        target: {
-            value: "credit-card"
-        }
-    }
-
+    fakeEvent = { target: { value: "credit-card"} };
     docDotQS("#payment").onchange(fakeEvent);
     docDotQS("#payment").value = "credit-card";
 });
 
 
+// Object with methods and props useful for validating forms
 let validator = {
     isntBlank: (el) => {
         return validator.helpers.verifyElementHasValue(el) && el.value.length > 0;
@@ -60,6 +57,7 @@ let validator = {
     }
 }
 
+// Event handler for optional "other" in Job Role field
 
 function onTitleChange (e) {
     if (e.target.value === "other") {
@@ -68,6 +66,18 @@ function onTitleChange (e) {
         renderOtherJobRole(false);
     }
 } 
+
+// Helpful function used in the function above
+function renderOtherJobRole(enable = true) {
+    if (enable) {
+        document.querySelector("#other-job-role").style.display = "";
+    } else {
+        document.querySelector("#other-job-role").style.display = "none";
+    }
+  
+}
+
+// Renders and populates the "Color" field, based on the design chosen
 
 function onDesignSelect (e) {
     if (e.target.value === "js puns") {
@@ -79,16 +89,49 @@ function onDesignSelect (e) {
     } else {
         renderColor(false);
     }
+}
+
+// Helper function
+function renderColor(enable=true) {
+    if (enable) {
+        document.querySelector("#shirt-colors").style.display = "";
+    } else {
+        document.querySelector("#shirt-colors").style.display = "none";
+    }
 
 }
 
+// Helper function
+function showColors(colorsToShow = 'js puns') {
+
+    let colorsToHide;
+    let hidden = document.querySelectorAll(`[data-theme='${colorsToHide}']`);
+    let shown = document.querySelectorAll(`[data-theme='${colorsToShow}'`);
+    // Logic
+    if (colorsToShow === 'js puns') {
+        colorsToHide = "heart js";
+    } else {
+        colorsToHide = 'js puns';
+    }
+    for (let i = 0; i<hidden.length; i++) {
+        hidden[i].style.display = "none";
+    }
+    for (let j = 0; j < shown.length; j++) {
+        shown[j].style.display = "";
+    }
+
+}
+
+// Renders content based on which payment type is choosen
+
 function onPaymentTypeChange(e) {
-    console.log("opc triggered");
+
     let exMonth = docDotQS(".expiration-box");
     let exYear = docDotQS(".credit-card-box");
     let paypalbox = docDotQS("#paypal");
     let bitcoinbox = docDotQS("#bitcoin");
 
+    // If credit card chosen
     if (e.target.value === "credit-card") {
         exMonth.style.display = "";
         exYear.style.display = "";
@@ -99,71 +142,20 @@ function onPaymentTypeChange(e) {
 
         exMonth.style.display = "none";
         exYear.style.display = "none";
- 
+        
+        // If paypal chosen
         if (e.target.value === "paypal") {
             paypalbox.style.display = "";
             bitcoinbox.style.display = "none";
         } else {
+            // If bitcoin chosen
             paypalbox.style.display = "none";
             bitcoinbox.style.display = ""
-            // Must equal bitcoin
         }
     }
 }
 
-
-function renderOtherJobRole(enable = true) {
-    if (enable) {
-        document.querySelector("#other-job-role").style.display = "";
-    } else {
-        document.querySelector("#other-job-role").style.display = "none";
-    }
-  
-}
-
-function renderColor(enable=true) {
-    if (enable) {
-        document.querySelector("#shirt-colors").style.display = "";
-    } else {
-        document.querySelector("#shirt-colors").style.display = "none";
-    }
-
-}
-
-function renderTotal(total) {
-    document.querySelector('#activities-cost').innerHTML = `Total: $${total}`;
-    if (total > 0) {
-        if (document.querySelector('#subscription-error') ) {
-            document.querySelector('#subscription-error').remove();
-        }
-    }
-}
-
-
-function showColors(colorsToShow = 'js puns') {
-
-    let colorsToHide;
-
-    if (colorsToShow === 'js puns') {
-        colorsToHide = "heart js";
-    } else {
-        colorsToHide = 'js puns';
-    }
-
-    let hidden = document.querySelectorAll(`[data-theme='${colorsToHide}']`);
-    let shown = document.querySelectorAll(`[data-theme='${colorsToShow}'`);
-
-    for (let i = 0; i<hidden.length; i++) {
-        hidden[i].style.display = "none";
-    }
-    for (let j = 0; j < shown.length; j++) {
-        shown[j].style.display = "";
-    }
-
-}
-
-let total = 0;
-
+// Add up all of the selected events, and render the new total
 function addEvents() {
     total = 0;
     let activities = document.querySelectorAll("[type='radio']:checked ~ .activity-cost");
@@ -174,6 +166,18 @@ function addEvents() {
     renderTotal(total);
 }
 
+// Function to render a new total to the Dom
+function renderTotal(total) {
+    document.querySelector('#activities-cost').innerHTML = `Total: $${total}`;
+    if (total > 0) {
+        if (document.querySelector('#subscription-error') ) {
+            document.querySelector('#subscription-error').remove();
+        }
+    }
+}
+
+
+// Function to clear all selected activities, and reset the total to 0
 function removeSelection(e) {
     e.preventDefault();
     let activities = document.querySelectorAll("[type='radio']:checked");
@@ -186,16 +190,9 @@ function removeSelection(e) {
     renderTotal(0);
 }
 
-function preventDef(e) { 
-    console.log("mouse down prevented");
-    e.preventDefault();
-}
 
-
-
+// Realtime validation for "Name" field
 function onNameChange(e) {
-
-    console.log("On name change fired", e.target.value);
 
     if (e.target.value.length > 0) {
         if (document.querySelector("#name-error")) {
@@ -206,6 +203,8 @@ function onNameChange(e) {
    
     }
 }
+
+// Realtime validation for "Email" field, with two display hints
 
 function onEmailChange(e) {
     console.log('Email changes');
@@ -232,6 +231,7 @@ function onEmailChange(e) {
  
 }
 
+// Validation action for the credit card number
 function onCCNUMChange(e) {
     e.target.classList.remove("not-valid");
     e.target.classList.add("valid");
