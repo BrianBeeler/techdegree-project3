@@ -236,24 +236,24 @@ function onCCNUMChange(e) {
     e.target.classList.remove("not-valid");
     e.target.classList.add("valid");
     if (e.target.value.length >= 13 && e.target.value.length <= 16) {
-        console.log("Check!!");
         if (document.querySelector("#ccn-error")) {
             document.querySelector("#ccn-error").remove();
         }
     }
 }
 
+// Validation action for the zip code 
 function onZipNUMChange(e) {
     e.target.classList.remove("not-valid");
     e.target.classList.add("valid");
     if (e.target.value.length === 5) {
-        console.log("Check!!");
         if (document.querySelector("#zip-error")) {
             document.querySelector("#zip-error").remove();
         }
     }
 }
 
+// Validation for th cvv input
 function onCvvChange(e) {
     e.target.classList.remove("not-valid");
     e.target.classList.add("valid");
@@ -265,21 +265,16 @@ function onCvvChange(e) {
     }
 }
 
-
-
-function totalChanged() {
-    console.log("total changed");
-}
-
 function validateForm(event) {
-
+    // Default prevented, and submission
+    // is triggered only if the function runs with no errors
+    event.preventDefault();
     let focusGiven = false;
 
-    // Validates an element, and appends an error messsage if 
-    // there is not one already
+    // Validates an element, and appends an error messsage,
+    // and changes the "valid"/"invalid" classes
     let validate = (elTag, errorTag, validatorName, errName, nparam) => {
         let el = docDotQS(elTag)
-        debugger; 
         if (!validator[validatorName](el, nparam)) {
             let errorEl = docDotQS(errorTag)
             if (!errorEl) {
@@ -289,18 +284,14 @@ function validateForm(event) {
                 el.focus()
                 focusGiven = true;
             }
-            console.log("add not-valid")
             el.classList.remove("valid");
             el.classList.add("not-valid");
         } else {
-            console.log("is valid")
             el.classList.remove("not-valid");
             el.classList.add("valid");
         }
     }
    
-    event.preventDefault();
-
     // Validation for name and email fields
     validate('#name', '#name-error', "isntBlank", "name");
     validate("#email", '#email-error', "isValidEmail", "email1");
@@ -317,7 +308,6 @@ function validateForm(event) {
             subscriptionError.focus()
             focusGiven = true;
         }
-
     }
 
     // Credit Card Validation
@@ -327,10 +317,8 @@ function validateForm(event) {
         validate("#cvv", "#cvv-error", "nDigits", "creditCardCVV", 3);                
     }
 
-    // if any above fail, return, else submit form
+    // if any above fail, return, else submit the form!
     if (!focusGiven) {
         document.querySelector('#main-form').submit();
     }
-  
-
 }
