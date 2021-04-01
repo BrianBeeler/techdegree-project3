@@ -43,8 +43,8 @@ let validator = {
     },  
     errors : {
         name: `<p class="error" id="name-error">Error: Name must be greater than zero characters.</p>`,
-        email1: `<p id="email-error" class="error">Error: must be a proper email.</p>` ,
-        email2: `<p id="email-error" class="error">Error: Must have value.</p>` ,
+        email1: `<p id="email-error" class="error">Error: Must be a proper email.</p>` ,
+        email2: `<p id="email-error" class="error">Error: Required field, must have a value.</p>` ,
         selectedPlan: `<p id="subscription-error" tabindex="0" class="error">Error: Must select at least one item</p>` ,
         creditCardNum:  `<p id="ccn-error" class="error">Error: Credit Card Must be 13 - 16 digits`,
         creditCardZip: `<p class="error" id="zip-error">Error: Zip Code must be 5 digits`,
@@ -105,14 +105,17 @@ function renderColor(enable=true) {
 function showColors(colorsToShow = 'js puns') {
 
     let colorsToHide;
-    let hidden = document.querySelectorAll(`[data-theme='${colorsToHide}']`);
-    let shown = document.querySelectorAll(`[data-theme='${colorsToShow}'`);
+
     // Logic
     if (colorsToShow === 'js puns') {
         colorsToHide = "heart js";
     } else {
         colorsToHide = 'js puns';
     }
+
+    let hidden = document.querySelectorAll(`[data-theme='${colorsToHide}']`);
+    let shown = document.querySelectorAll(`[data-theme='${colorsToShow}'`);
+
     for (let i = 0; i<hidden.length; i++) {
         hidden[i].style.display = "none";
     }
