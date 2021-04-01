@@ -325,3 +325,11 @@ function validateForm(event) {
         document.querySelector('#main-form').submit();
     }
 }
+
+function addFocus(e) {
+    e.target.parentNode.classList.add("focus");
+}
+
+function removeFocus(e) {
+    e.target.parentNode.classList.remove("focus");
+}
