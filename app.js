@@ -80,6 +80,7 @@ function renderOtherJobRole(enable = true) {
 // Renders and populates the "Color" field, based on the design chosen
 
 function onDesignSelect (e) {
+    docDotQS("#default-design").selected = true;
     if (e.target.value === "js puns") {
         renderColor();
         showColors();
